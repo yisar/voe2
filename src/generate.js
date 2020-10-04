@@ -1,7 +1,6 @@
 const { isCompletionStatement } = require("babel-types");
-const { void } = require("webidl-conversions");
 
-const generate = (root) => {
+export const generate = (root) => {
   let children = root.children;
   let create = "";
   let update = "";
@@ -13,7 +12,6 @@ const generate = (root) => {
     update += generated[1];
     remove += generated[2];
   }
-
   return `[()=>{${create}},()=>{${update}},()=>{${remove}}]`;
 };
 

@@ -1,6 +1,6 @@
 # homo
 
-Tiny web component compiler
+Tiny web component compiler without runtime.
 
 ```html
 <script>
