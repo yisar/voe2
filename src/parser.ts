@@ -14,7 +14,7 @@ const escapeMap = {
     "\n": "\\n",
 }
 
-const parse = input => {
+export const parse = input => {
     const length = input.length
     let root = {
         element: 0,
