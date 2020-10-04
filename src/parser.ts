@@ -2,6 +2,17 @@ const whitespaceRE = /^\s+$/
 const valueEndRE = /[\s/>]/
 const expressionRE = /"[^"]*"|'[^']*'|\d+[a-zA-Z$_]\w*|\.[a-zA-Z$_]\w*|[a-zA-Z$_]\w*:|([a-zA-Z$_]\w*)/g;
 const globals = "NaN false in null this true typeof undefined"
+const escapeRE = /(?:(?:&(?:amp|gt|lt|nbsp|quot);)|"|\\|\n)/g
+const escapeMap = {
+    "&amp;": "&",
+    "&gt;": ">",
+    "&lt;": "<",
+    "&nbsp;": " ",
+    "&quot;": '\\"',
+    "\\": "\\\\",
+    '"': '\\"',
+    "\n": "\\n",
+}
 
 const parse = input => {
     const length = input.length
@@ -175,7 +186,7 @@ const parseAttributes = (index, input, length, attributes) => {
             }
             let dynamic = false
             if (expression) {
-                let template = parseExpression(value)
+                let template = parseTemplate(value)
                 value = template.expression
                 dynamic = template.dynamic
             }
@@ -188,7 +199,7 @@ const parseAttributes = (index, input, length, attributes) => {
     return index
 }
 
-const parseExpression = expression => {
+const parseTemplate = expression => {
     let dynamic = false
     expression = expression.replace(expressionRE, (match, name) => {
         if (name === undefined || globals.indexOf(name) > -1) {
@@ -203,6 +214,57 @@ const parseExpression = expression => {
         }
     })
     return { expression, dynamic }
+}
+
+const parseExpression = (index, input, length, stack) => {
+    let expression = ''
+    for (; index < length; index++) {
+        let char = input[index]
+        if (char === '}') {
+            index += 1
+            break
+        } else {
+            expression += char
+        }
+    }
+    let template = parseTemplate(expression)
+    stack[stack.length - 1].children.push({
+        type: 'text',
+        attributes: [{
+            key: '',
+            value: template.expression,
+            expression: true,
+            dynamic: template.dynamic
+        }],
+        children: []
+    })
+    return index
+}
+
+const parseText = (index, input, length, stack) => {
+    let content = ''
+    for (; index < length; index++) {
+        let char = input[index]
+        if (char === '<' || char === '{') {
+            break
+        } else {
+            content += char
+        }
+    }
+    if (!whitespaceRE.test(content)) {
+        stack[stack.length - 1].children.push({
+            type: 'text',
+            attributes: [{
+                key: '',
+                value: content.replace(escapeRE, match => escapeMap[match]),
+                expression: false,
+                dynamic: false
+            }],
+            children: []
+
+        })
+    }
+    return index
 }
 
 const isComponent = type => type[0] === type[0].toUpperCase() && type[0] !== type[0].toLowerCase()
