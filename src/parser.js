@@ -24,7 +24,7 @@ export const parse = input => {
         attributes: [],
         children: []
     }
-    let stack = []
+    let stack = [root]
 
     for (let i = 0; i < length;) {
         let char = input[i]
@@ -94,6 +94,7 @@ const parseOpenTag = (index, input, length, stack) => {
         if (char === '/' || char === '>') {
             let attributes = element.attributes
             let lastIndex = stack.length - 1
+            console.log(lastIndex)
             if (char === '/') {
                 index += 1
             } else {
@@ -118,7 +119,6 @@ const parseOpenTag = (index, input, length, stack) => {
                     i += 1
                 }
             }
-
             stack[lastIndex].children.push(element)
             index += 1
             break
