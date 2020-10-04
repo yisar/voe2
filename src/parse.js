@@ -18,8 +18,7 @@ export const parse = input => {
     const length = input.length
     let root = {
         element: 0,
-        reference: 1,
-        next: 2,
+        index: 1,
         type: 'root',
         attributes: [],
         children: []
