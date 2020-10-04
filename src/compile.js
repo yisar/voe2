@@ -13,13 +13,12 @@ export const compile = (elment,input) =>{
               mode: 'open',
             }).appendChild(template.content.cloneNode(true))
             super();
-            this.lifecycle = ${code};
         }
         connectedCallback(){
-            ${this.lifecycle[0]}
+            ${code[0]}
         }
         disconnectedCallback(){
-            ${this.lifecycle[2]}
+            ${code[2]}
         }
     }
     `

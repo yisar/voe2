@@ -1,3 +1,3 @@
-import {parse} from '../src/parse.js'
-const html = `<button>hello{msg}</button>`
+import {parse} from '../src/parse'
+const html = `<button>hello {name}</button>`
 console.log(parse(html))
