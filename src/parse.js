@@ -17,8 +17,8 @@ const escapeMap = {
 export const parse = input => {
     const length = input.length
     let root = {
-        element: 0,
-        index: 1,
+        current: 0,
+        next: 1,
         type: 'root',
         attributes: [],
         children: []
@@ -102,11 +102,11 @@ const parseOpenTag = (index, input, length, stack) => {
 
             for (let i = 0; i < attributes.length;) {
                 let attribute = attributes[i]
-                if (isComponent(attribute.key)) {
+                if (isComponent(attribute.name)) {
                     element = {
-                        type: attribute.key,
+                        type: attribute.name,
                         attributes: [{
-                            key: '',
+                            name: '',
                             value: attribute.value,
                             expression: attribute.expression,
                             dynamic: attribute.dynamic
@@ -140,7 +140,7 @@ const parseAttributes = (index, input, length, attributes) => {
             index += 1
             continue
         } else {
-            let key = ''
+            let name = ''
             let value = void 0
             let expression = false
 
@@ -153,7 +153,7 @@ const parseAttributes = (index, input, length, attributes) => {
                     index += 1
                     break
                 } else {
-                    key += char
+                    name += char
                     index += 1
                 }
             }
@@ -191,7 +191,7 @@ const parseAttributes = (index, input, length, attributes) => {
             }
 
             attributes.push({
-                key, value, expression, dynamic
+                name, value, expression, dynamic
             })
         }
     }
@@ -208,7 +208,7 @@ const parseTemplate = expression => {
             if (name[0] === '$') {
                 return `locals.${name}`
             } else {
-                return `instance.${name}`
+                return `ctx.${name}`
             }
         }
     })
@@ -230,7 +230,7 @@ const parseExpression = (index, input, length, stack) => {
     stack[stack.length - 1].children.push({
         type: 'text',
         attributes: [{
-            key: '',
+            name: '',
             value: template.expression,
             expression: true,
             dynamic: template.dynamic
@@ -254,7 +254,7 @@ const parseText = (index, input, length, stack) => {
         stack[stack.length - 1].children.push({
             type: 'text',
             attributes: [{
-                key: '',
+                name: '',
                 value: content.replace(escapeRE, match => escapeMap[match]),
                 expression: false,
                 dynamic: false
@@ -266,4 +266,4 @@ const parseText = (index, input, length, stack) => {
     return index
 }
 
-const isComponent = type => type[0] === type[0].toUpperCase() && type[0] !== type[0].toLowerCase()
+export const isComponent = type => type[0] === type[0].toUpperCase() && type[0] !== type[0].toLowerCase()
