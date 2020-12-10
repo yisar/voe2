@@ -4,48 +4,27 @@ Tiny web component compiler without runtime.
 
 ```html
 <script>
-  let name = "132";
+  let count = 0
 
-  function rename() {
-    name = "yse";
+  function add() {
+    count++
   }
 </script>
 
-<button onclick="{rename}">{name}</button>
+<button onclick="{add}">{name}</button>
 ```
 
 This will compile to
 
 ```js
-import {init, element, text, append, listen, Component } from '@homo/runtime'
+export default () => {
+	const [count, setCount] = useState(0)
 
-
-function ctx(invalidate) {
-	let name = 132
-
-	function rename() {
-        name = 'yse'
-		invalidate(name)
-	}
-
-	return [name, rename]
+  	function add() {
+    		setState(count + 1)
+  	}
+	return (
+		<button onClick={renanme}></button>
+	)
 }
-
-function fragment(ctx){
-    let el0, el1, el2
-    return {
-        c(el){
-            el0 = elment('button')
-            el1 = text(ctx[0])
-            listen(el2, 'click', ctx[1])
-            insert(el, el0)
-            insert(el0, el1)
-        }
-        u(el){
-            text(el1, ctx[0])
-        }
-    }
-}
-
-export default Component.bind(null, ctx, fragment)
 ```
