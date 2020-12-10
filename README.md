@@ -18,10 +18,10 @@ import { h } from 'homo'
 export default () => {
 	let count = 0
   	const add = () => count++
-	return h`<button @click=${add}>${count}</button>` /*
+	return () => {
 	  const el0 = document.createElement('button')
 	  el0.innerHTML = `<button>${() => count}</button>`
 	  el0.addEventListener('click', () => { add(); invalidate(); })
-	*/
+	}
 }
 ```
