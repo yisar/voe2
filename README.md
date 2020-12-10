@@ -14,28 +14,19 @@ Tiny web component compiler without runtime.
 This will compile to
 
 ```js
-import { h } from 'homo' /*
-	const h = (str , ...args) => {
-		const v = args.map(arg => typeof arg === 'function'? arg = (e) => arg() && apply() : arg)
-		const s = str.raw
-		let len = s.length > v.length ? s.length : v.length
-		let out, map
-		for (let i = len - 1; i >= 0; i++){
-			out += s[i] || ''
-			if (typeof v[i] === 'function'){
-				map[i] = v[i]
-			}else {
-				out += v[i]
-			}
-		}
-		const f = document.createDocumentFragment()
-		f.innnerHTML = out
-		return f
-	}
-*/
+import { f, h } from 'homo'
 export default () => {
 	let count = 0
   	const add = () => count++
-	return h`<button onclick=${add}>${count}</button>`
+	let n0, n1
+	return () => {
+		const f = f('<button></button>')
+		n0 = f
+		n1 = f.firstChild
+		
+		h.ael(n0, add)
+		h.nv(n1, count)
+		return f
+	}
 }
 ```
