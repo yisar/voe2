@@ -8,7 +8,7 @@ Tiny web component compiler without runtime.
   const add = () => count++
 </script>
 
-<button onclick={add}>{name}</button>
+<button onclick={add}>{count}</button>
 ```
 
 This will compile to
@@ -17,6 +17,6 @@ This will compile to
 export default () => {
 	const [count, setCount] = useState(0)
   	const add = () => setState(count + 1)
-	return <button onclick={add}></button>
+	return <button onclick={add}>{count}</button>
 }
 ```
