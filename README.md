@@ -8,15 +8,16 @@ Tiny web component compiler without runtime.
   const add = () => count++
 </script>
 
-<button onclick={add}>{count}</button>
+<button @click={add}>{count}</button>
 ```
 
 This will compile to
 
 ```js
+import { h } from 'homo'
 export default () => {
-	const [count, setCount] = useState(0)
-  	const add = () => setState(count + 1)
-	return <button onclick={add}>{count}</button>
+	let count = 0
+  	const add = () => count++
+	return h`<button @click=${add}>${count}</button>`
 }
 ```
