@@ -2,6 +2,8 @@
 
 Tiny web component compiler without runtime.
 
+* 暂时废弃 *
+
 ```html
 <script>
   let count = 0
