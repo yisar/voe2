@@ -10,5 +10,5 @@ Concurrent rendering engine.
   let add = () => count++
 </script>
 
-<button @click={add}>{count}</button>
+<button onclick={add} style={ padding: 10; margin: 10; }>{count}</button>
 ```
