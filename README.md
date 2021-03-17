@@ -6,7 +6,7 @@ Web component compiler.
 
 ### Feature
 
-- **Idom instead of vdom** — It no longer needs vdom, but a tree in memory, which is the core technology of [Angular ivy](https://github.com/angular/angular/blob/master/aio/content/guide/ivy.md)
+- **Idom instead of vdom** — It no longer needs vdom, but a tree in memory, which is a technology of [Angular ivy](https://github.com/angular/angular/blob/master/aio/content/guide/ivy.md)
 
 - **Staic template optimization** — This is a coarse-grained staic template optimization idea from [vue3 block tree](https://zhuanlan.zhihu.com/p/150732926)
 
