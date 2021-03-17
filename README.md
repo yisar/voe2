@@ -24,5 +24,5 @@ Web component compiler.
   }
 </script>
 
-<button onclick={add} style={ padding: 10; margin: 10; }>{count}</button>
+<button @click={add} style={ padding: 10; margin: 10; }>{count}</button>
 ```
