@@ -12,6 +12,7 @@ Web component compiler.
 
 - **Binary template** - A fast parse scheme from [glimmer.js](https://www.linkedin.com/pulse/glimmers-optimizing-compiler-chad-hietala/)
 
+### Use
 
 ```svelte
 <script>
